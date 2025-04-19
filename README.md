@@ -90,4 +90,4 @@ Options for Home , Download , Watch Later , History , and Settings .
 Clear All Button (not shown in the screenshot but implied):
 Allows users to clear their entire watch history.
 
-![image alt]()
+![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000906.png?raw=true)
