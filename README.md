@@ -20,3 +20,21 @@ A Sign Up button to submit the form.
 A link to navigate back to the Login page if the user already has an account.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20002210.png?raw=true)
+
+3. Home Page
+Purpose : Displays a curated list of educational videos across various categories.
+Key Features :
+Navigation Bar :
+Options for Home , Download , Watch Later , History , and Settings .
+Video Cards :
+Each card shows a video thumbnail, title, instructor name, views, duration, and brief description.
+Category Tabs :
+Filters to view videos by categories like All , Popular , Mathematics , Automata Theory , etc.
+Search Bar :
+Allows users to search for specific videos.
+
+![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000711.png?raw=true)
+
+
+
+
