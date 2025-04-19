@@ -3,8 +3,8 @@
 </div>
 
 ## 1. Login Page
-<p></p> Purpose : Allows users to log into their accounts.</p>
-Key Features :
+<p> Purpose : Allows users to log into their accounts.</p>
+<p>Key Features :</p>
 Input fields for Username and Password .
 A Login button to submit the credentials.
 A link to navigate to the Sign Up page for new users.
