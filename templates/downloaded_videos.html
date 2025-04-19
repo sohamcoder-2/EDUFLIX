@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Downloaded Videos | EduFlix</title>
+  <link rel="icon" href="{{ url_for('static', filename='IMAGES/Logo.jpg') }}" type="image/jpg">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Open Sans", serif;
+    }
+    body {
+      background-color: white;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #203a43;
+      z-index: 50;
+    }
+    .navbar .logo-image, .navbar .user-img {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+    .navbar .logo-image { width: 64px; height: 64px; }
+    .navbar .section, .navbar .search-form, .navbar .nav-logo {
+      display: flex;
+      align-items: center;
+    }
+    .navbar .section { gap: 1rem; }
+    .navbar .nav-logo { gap: 0.5rem; text-decoration: none; }
+    .navbar .logo-text { font-size: 1.5rem; color: aliceblue; }
+    .navbar .menu-button {
+      border: none;
+      cursor: pointer;
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      background: #203a43;
+      position: relative;
+    }
+    .navbar .menu-button .bar {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: all 0.3s ease;
+    }
+    .navbar .menu-button .bar:nth-child(1) { top: 15px; }
+    .navbar .menu-button .bar:nth-child(2) { top: 25px; }
+    .navbar .menu-button .bar:nth-child(3) { top: 35px; }
+    .search-form {
+      width: 100%;
+      max-width: 500px; /* Match the search bar width from SearchPage.html */
+    }
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+    .search-input {
+      width: 500px;
+      padding: 10px 40px 10px 15px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    .search-button {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .search-button img {
+      width: 20px;
+      height: 20px;
+    }
+    .main-layout {
+      display: flex;
+      position: relative;
+      top: 5rem;
+      height: calc(100vh - 5rem);
+      overflow-y: auto;
+    }
+    .sidebar {
+      width: 250px;
+      height: 100%;
+      position: fixed;
+      top: 5rem;
+      left: -250px; /* Hide the sidebar initially */
+      background-color: #e5e7eb;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      overflow-y: hidden;
+      z-index: 100;
+      transition: left 0.3s ease;
+    }
+    /* Show sidebar when active */
+    .sidebar.active {
+      left: 0; /* Make the sidebar visible */
+    }
+    /* Adjust main content margin when sidebar is active */
+    .content-wrapper {
+      margin-left: 0;
+      transition: margin-left 0.3s ease-in-out;
+    }
+    .sidebar.active + .content-wrapper {
+      margin-left: 0; /* Push content to the right */
+    }
+    .sidebar-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .sidebar-button {
+      width: 100%;
+      padding: 12px 15px;
+      text-align: left;
+      background: white;
+      border: none;
+      border-radius: 20px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      text-decoration: none;
+    }
+    .sidebar-button:hover {
+      background: #203a43;
+      transform: translateX(3px);
+      color: white;
+    }
+    hr {
+      border: none;
+      height: 1px;
+      background: #868686;
+      margin: 10px 0;
+    }
+    .content-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 30px;
+      padding: 90px 20px;
+      flex-wrap: wrap;
+    }
+    .video-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      justify-content: space-between;
+      margin-left: 250px;
+    }
+    .video-card {
+      background: #f7f7fb;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out;
+      padding: 15px;
+    }
+    .video-card:hover {
+      transform: scale(1.05);
+    }
+    .video-card img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+      display: block;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+    .video-details {
+      padding-top: 10px;
+    }
+    .video-details h2 {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    .video-details p {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 5px;
+    }
+    .video-details span {
+      font-size: 12px;
+      color: #888;
+    }
+    /* User Dropdown Styles */
+    .user-menu {
+      position: relative;
+    }
+    .user-menu .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      z-index: 1000;
+    }
+    .user-menu .dropdown a {
+      text-decoration: none;
+      color: #333;
+      display: block;
+      padding: 5px 10px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .user-menu .dropdown a:hover {
+      background-color: #f0f0f0;
+    }
+    .user-menu.show-dropdown .dropdown {
+      display: block;
+    }
+    @media screen and (max-width: 768px) {
+      .video-list {
+        grid-template-columns: 1fr;
+      }
+      .content-wrapper {
+        padding: 60px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="nav_container">
+    <header>
+      <nav class="navbar">
+        <div class="section nav-left">
+          <!-- Hamburger Menu Button -->
+          <button id="menu-toggle" class="menu-button">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </button>
+          <a href="#" class="nav-logo">
+            <img src="/static/Images/Logo.jpg" alt="Logo" class="logo-image" />
+            <h2 class="logo-text">EduFlix</h2>
+          </a>
+        </div>
+        <div class="section nav-mid">
+          <!-- Search Form -->
+          <form action="{{ url_for('search_page') }}" method="GET" class="search-form">
+            <div class="search-box">
+              <input type="search" placeholder="Search" name="q" value="{{ query }}" required class="search-input" autocomplete="off" />
+              <button class="search-button">
+                <img src="/static/IMAGES/search.png" alt="search-icon" />
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="section nav-right user-menu">
+          <!-- User Profile Dropdown -->
+          <div class="dropdown-toggle" onclick="toggleDropdown(this)">
+            <img src="/static/IMAGES/User.png" alt="user profile" class="user-img" />
+          </div>
+          <div class="dropdown">
+            <a href="#" onclick="logout()">Log Out</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar {% if session.get('user_id') %}active{% endif %}">
+    <div class="sidebar-list">
+      <a href="{{ url_for('search_page') }}" class="sidebar-button">Home</a>
+      <!-- <button class="sidebar-button">Lectures</button> -->
+      <a href="{{ url_for('downloaded_videos') }}" class="sidebar-button active">Download</a>
+      <hr />
+      <button class="sidebar-button" onclick="window.location.href='/watch_later_videos'">Watch Later</button>
+      {% if username and role == 'admin' %}
+            <button class="sidebar-button" onclick="window.location.href='/upload_video'">Add Video</button>
+        {% endif %}
+      <!-- <button class="sidebar-button">Resources</button> -->
+      <hr />
+      <button class="sidebar-button" onclick="window.location.href='/history'">History</button>
+      <button class="sidebar-button">Settings</button>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <div class="content-wrapper">
+    <div class="video-list">
+      {% if videos %}
+        {% for downloaded in videos %}
+          <div class="video-card">
+            <a href="{{ url_for('video_play', video_id=downloaded.video.id) }}">
+              <img src="{{ downloaded.video.thumbnail_url }}" alt="thumbnail" />
+            </a>
+            <div class="video-details">
+              <h2>{{ downloaded.video.title }}</h2>
+              <p><strong>Instructor:</strong> {{ downloaded.video.instructor }}</p>
+              <p><strong>Downloaded On:</strong> {{ downloaded.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No downloaded videos found.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const menuToggle = document.getElementById('menu-toggle');
+      const sidebar = document.querySelector('.sidebar');
+      menuToggle.addEventListener('click', function () {
+        sidebar.classList.toggle('active'); // Toggle the 'active' class to show/hide the sidebar
+      });
+
+      // User Dropdown Toggle
+      const userMenu = document.querySelector('.user-menu');
+      userMenu.addEventListener('click', function () {
+        userMenu.classList.toggle('show-dropdown');
+      });
+    });
+
+    function logout() {
+      window.location.href = "{{ url_for('index') }}";
+    }
+  </script>
+</body>
+</html>

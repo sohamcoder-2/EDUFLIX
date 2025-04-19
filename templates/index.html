@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="{{ url_for('static', filename='IMAGES/Logo.jpg') }}" type="image/jpg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='stylesAuth.css') }}"> -->
+    <style>
+        /*
+    Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+    Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+    */
+    /* 
+        Created on : Feb 19, 2025, 9:34:00 PM
+        Author     : DELL
+    */
+    
+    /* Reset and Global Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+    
+    body {
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding: 20px;
+    }
+    
+    /* Container */
+    .container {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+    }
+    
+    /* Headings */
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+    
+    /* Form */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    /* Input Fields */
+    .input-field, .select-field {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    
+    /* Buttons */
+    button {
+        background: #203a43;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    
+    button:hover {
+        background: #305764;
+    }
+    
+    /* Links */
+    .links-container {
+        text-align: center;
+        margin-top: 15px;
+    }
+    
+    .links-container a {
+        color: #203a43;
+        text-decoration: none;
+        font-size: 16px;
+    }
+    
+    .links-container a:hover {
+        text-decoration: underline;
+    }
+    
+    .signup-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+    
+    .full-width {
+        grid-column: span 2;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 600px) {
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="text" class="input-field" name="usernamelogin" placeholder="Username" required>
+            <input type="password" class="input-field" name="passwordlogin" placeholder="Password" required>
+            <button type="submit" class="full-width">Login</button>
+        </form>
+
+        <div class="links-container">
+            <a href="{{ url_for('signup_page') }}">Sign Up</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let formData = new FormData(this);
+
+            fetch("{{ url_for('login') }}", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>

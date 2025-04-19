@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="icon" href="{{ url_for('static', filename='IMAGES/Logo.jpg') }}" type="image/jpg">
+    <style>
+
+        /* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Container */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px 50px;
+}
+
+/* Content Wrapper - Desktop: Side by Side, Mobile: Stacked */
+.content-wrapper {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Upload Container (Form) */
+.upload-container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.upload-container h2 {
+  text-align: center;
+  color: #203a43;
+  margin-bottom: 10px;
+}
+
+.form-container {
+  display: flex;
+  gap: 20px;
+}
+
+.left-form,
+.right-form {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.upload-container input,
+.upload-container textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.upload-container input:focus,
+.upload-container textarea:focus {
+  border-color: #203a43;
+  outline: none;
+}
+
+.upload-container button {
+  background: #203a43;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.upload-container button:hover {
+  background: #172b36;
+}
+
+.upload-btn {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Video Preview Container */
+.preview-container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: fit-content;
+  position: relative;
+}
+
+.preview-container h2 {
+  text-align: center;
+  color: #203a43;
+}
+
+.preview-container video {
+  width: 100%;
+  max-height: 300px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+
+
+#status-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border-radius: 8px;
+    z-index: 1000;
+}
+
+#status-message p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#redirect-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#redirect-button:hover {
+    background-color: #45a049;
+}
+
+
+/* Responsive Design */
+
+/* 🟢 For Tablet (Stacked Layout) */
+@media (max-width: 1024px) {
+  .content-wrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .upload-container,
+  .preview-container {
+    width: 100%;
+    max-width: 700px;
+  }
+}
+
+/* 🟢 For Mobile (Stacked Layout: Video Preview On Top, Form Below) */
+@media (max-width: 768px) {
+  .content-wrapper {
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .upload-container,
+  .preview-container {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .form-container {
+    flex-direction: column;
+  }
+
+  .left-form,
+  .right-form {
+    width: 100%;
+  }
+}
+
+
+/* 🟢 Mobile View: Video Preview on Top, Form Below */
+@media (max-width: 768px) {
+  .content-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .preview-container {
+    order: -1; /* Moves the preview to the top */
+  }
+
+  .upload-container {
+    order: 1; /* Moves the form below */
+  }
+
+  .upload-container,
+  .preview-container {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .form-container {
+    flex-direction: column;
+  }
+
+  .left-form,
+  .right-form {
+    width: 100%;
+  }
+}
+
+
+
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Upload</title>
+  </head>
+  <body>
+    <body>
+      <div class="container">
+          <div class="upload-container">
+              <h2>Upload Your Video</h2>
+              <form action="{{ url_for('upload_video') }}" method="POST" enctype="multipart/form-data">
+                  <div class="form-container">
+                      <div class="left-form">
+                          <label for="title">Video Title</label>
+                          <input type="text" id="title" name="title" placeholder="Enter video title" required />
+  
+                          <!-- Instructor Field -->
+                          <label for="instructor">Instructor</label>
+                          <input type="text" id="instructor" name="instructor" placeholder="Enter username" required />
+  
+                          <label for="subject">Subject</label>
+                          <input type="text" id="subject" name="subject" placeholder="Enter Your Subject" required />
+  
+                          <!-- Replace Topic with Duration -->
+                        <label for="duration">Duration</label>
+                        <input type="text" id="duration" name="duration" placeholder="Enter video duration (e.g., 10:30)" required />
+                        
+                      </div>
+                      <div class="right-form">
+                          <label for="description">Description</label>
+                          <textarea id="description" name="description" placeholder="Enter video description (links supported)" rows="3" required></textarea>
+  
+                          <label for="thumbnail">Upload Thumbnail</label>
+                          <input type="file" id="thumbnail" name="thumbnail" accept="image/*" required />
+                          <button type="button" id="remove-thumbnail">Remove Thumbnail</button>
+  
+                          <label for="video">Upload Video</label>
+                          <input type="file" id="video" name="video" accept="video/*" required />
+                          <button type="button" id="remove-video">Remove Video</button>
+                      </div>
+                  </div>
+                  <button type="submit" class="upload-btn">Upload Video</button>
+              </form>
+          </div>
+      </div>
+  </body>
+
+    <script>
+      document.getElementById("video").addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        if (file) {
+          const videoPreview = document.getElementById("video-preview");
+          videoPreview.src = URL.createObjectURL(file);
+          document.getElementById("preview-container").style.display = "block";
+        }
+      });
+
+      document.getElementById("remove-video").addEventListener("click", function () {
+        document.getElementById("video").value = "";
+        document.getElementById("video-preview").src = "";
+        document.getElementById("preview-container").style.display = "none";
+      });
+
+      document.getElementById("remove-thumbnail").addEventListener("click", function () {
+        document.getElementById("thumbnail").value = "";
+      });
+    </script>
+  </body>
+</html>

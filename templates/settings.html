@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings | EduFlix</title>
+    <link rel="icon" href="{{ url_for('static', filename='IMAGES/Logo.jpg') }}" type="image/jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Open Sans", serif;
+        }
+        html, body {
+            height: 100%;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: #203a43 transparent; /* For Firefox */
+        }
+        body::-webkit-scrollbar {
+            width: 8px; /* Width of the scrollbar for WebKit browsers */
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: #203a43; /* Color of the scrollbar thumb */
+            border-radius: 4px;
+        }
+        body::-webkit-scrollbar-track {
+            background-color: transparent; /* Color of the scrollbar track */
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #203a43;
+            z-index: 50;
+        }
+        .messages {
+            margin-bottom: 20px;
+        }
+        .alert {
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+        }
+        .alert-success {
+            background-color: #28a745;
+        }
+        .alert-error {
+            background-color: #dc3545;
+        }
+        .navbar .logo-image, .navbar .user-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .navbar .logo-image { width: 64px; height: 64px; }
+        .navbar .section, .navbar .search-form, .navbar .nav-logo {
+            display: flex;
+            align-items: center;
+        }
+        .navbar .section { gap: 1rem; }
+        .navbar .nav-logo { gap: 0.5rem; text-decoration: none; }
+        .navbar .logo-text { font-size: 1.5rem; color: aliceblue; }
+        .navbar .menu-button {
+            border: none;
+            cursor: pointer;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            background: #203a43;
+            position: relative;
+        }
+        .navbar .menu-button .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+        }
+        .navbar .menu-button .bar:nth-child(1) { top: 15px; }
+        .navbar .menu-button .bar:nth-child(2) { top: 25px; }
+        .navbar .menu-button .bar:nth-child(3) { top: 35px; }
+        .search-form {
+            width: 100%;
+        }
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+        .search-input {
+            width: 500px;
+            padding: 10px 40px 10px 15px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .search-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .search-button img {
+            width: 20px;
+            height: 20px;
+        }
+        .main-layout {
+            display: flex;
+            position: relative;
+            top: 5rem;
+            height: calc(100vh - 5rem); /* Ensure the layout fits within the viewport */
+            overflow-y: auto; /* Enable vertical scrolling for the main content */
+        }
+        .main-layout .sidebar {
+            width: 250px;
+            height: 100%;
+            position: fixed;
+            top: 5rem;
+            left: -250px; /* Initially hidden */
+            background-color: #e5e7eb;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-y: scroll;
+            z-index: 100;
+            transition: left 0.3s ease;
+        }
+        .sidebar-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .sidebar-button {
+            width: 100%;
+            padding: 12px 15px;
+            text-align: left;
+            background: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            text-decoration: none;
+        }
+        .sidebar-button:hover {
+            background: #203a43;
+            transform: translateX(3px);
+            color: white;
+        }
+        hr {
+            border: none;
+            height: 1px;
+            background: #868686;
+            margin: 10px 0;
+        }
+        .content-wrapper {
+            margin-left: 250px;
+            padding: 0 1rem;
+            overflow-y: auto; /* Enable vertical scrolling for the content wrapper */
+            width: calc(100% - 250px);
+            height: 100%; /* Ensure the content wrapper takes up the remaining height */
+            display: flex;
+            flex-direction: column;
+        }
+        .settings-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f7f7fb;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .settings-title {
+            padding-top: 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-label {
+            margin-top: 20px;
+            /* padding-top: 50px; */
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-input {
+            margin-top: 10px;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-button {
+            padding: 10px 20px;
+            background: #203a43;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .form-button:hover {
+            background: #1a2e36;
+        }
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .theme-toggle label {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .theme-toggle input[type="radio"] {
+            accent-color: #203a43;
+            width: 20px;
+            height: 20px;
+        }
+        .privacy-section {
+            margin-top: 20px;
+        }
+        .privacy-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .privacy-option label {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .privacy-option button {
+            padding: 5px 10px;
+            background: #203a43;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: opacity 0.3s ;
+        }
+        .privacy-option button:hover {
+            opacity: 0.5;
+        .privacy-option button:active{
+            opacity: 0.3;
+        }
+        }
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: fixed;
+                bottom: 0;
+                top: auto;
+                left: -100%;
+                background-color: #e5e7eb;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+                padding: 10px;
+                overflow-y: auto;
+                z-index: 100;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+            }
+            .sidebar-list {
+                flex-direction: row;
+                gap: 10px;
+            }
+            .sidebar-button {
+                padding: 10px;
+                font-size: 14px;
+                border-radius: 15px;
+                gap: 10px;
+            }
+            .content-wrapper {
+                margin-left: 0;
+                width: 100%;
+                padding-bottom: 70px;
+            }
+        }
+    </style>
+     <!-- JavaScript -->
+     <script>
+        function logout() {
+    if (confirm('Are you sure you want to log out?')) {
+        window.location.href = "{{ url_for('logout') }}"; // Redirect to logout route
+    }
+}
+    //     document.addEventListener('DOMContentLoaded', function () {
+    //     // Handle Clear History button click
+    //     function clearHistory() {
+    //         if (confirm('Are you sure you want to clear your watch history?')) {
+    //             fetch('/clear_history', {
+    //                 method: 'POST',
+    //                 headers: {
+    //                     'Content-Type': 'application/json'
+    //                 }
+    //             })
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 if (data.success) {
+    //                     alert('Your watch history has been cleared.');
+    //                 } else {
+    //                     alert('Failed to clear history. Please try again.');
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error:', error);
+    //                 alert('An error occurred while clearing history.');
+    //             });
+    //         }
+    //     }
+    // });
+    </script>
+</head> 
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="messages">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+    <!-- Navbar -->
+    <div class="nav_container">
+        <header>
+            <nav class="navbar">
+                <div class="section nav-left">
+                    <!-- Hamburger Menu Button -->
+                    <button id="menu-toggle" class="menu-button">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                    <a href="#" class="nav-logo">   
+                        <img src="{{ url_for('static', filename='Images/Logo.jpg') }}" alt="Logo" class="logo-image" />
+                        <h2 class="logo-text">EduFlix</h2>
+                    </a>
+                </div>
+                <!-- <div class="section nav-mid">
+                    Search Form
+                    <form action="{{ url_for('search_page') }}" method="GET" class="search-form">
+                        <div class="search-box">
+                            <input type="search" placeholder="Search" name="q" required class="search-input" autocomplete="off" />
+                            <button class="search-button">
+                                <img src="/static/IMAGES/search.png" alt="search-icon" />
+                            </button>
+                        </div>
+                    </form>
+                </div> -->
+                <div class="section nav-right user-menu">
+                    <div class="dropdown-toggle" onclick="toggleDropdown(this)">
+                        <img src="{{ url_for('static', filename='IMAGES/User.png') }}" alt="user profile" class="user-img" />
+                    </div>
+                    <div class="dropdown">
+                        {% if username %}
+                            <a href="#" class="dropdown-item">{{ username }}</a>
+                            <hr />
+                            <a href="#" onclick="logout()">Log Out</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </div>
+    <!-- Sidebar -->
+    <!-- <aside class="sidebar {% if session.get('user_id') %}active{% endif %}">
+        <div class="sidebar-list">
+            <a href="{{ url_for('search_page') }}" class="sidebar-button">Home</a>
+            <a href="{{ url_for('downloaded_videos') }}" class="sidebar-button">Download</a>
+            <hr />
+            <button class="sidebar-button" onclick="window.location.href='/watch_later_videos'">Watch Later</button>
+            <button class="sidebar-button" onclick="window.location.href='/upload_video'">Add Video</button>
+            <hr />
+            <button class="sidebar-button" onclick="window.location.href='/history'">History</button>
+            <button class="sidebar-button" onclick="window.location.href='/settings'">Settings</button>
+        </div>
+    </aside> -->
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <div class="main-content">
+            <!-- Account Settings Section -->
+            <div class="settings-section">
+                <h2 class="settings-title">Account Settings</h2>
+                <form id="account-settings-form" action="{{ url_for('settings') }}" method="POST">
+                    <div class="form-group">
+                        <label class="form-label">Change Username</label>
+                        <input type="text" name="new_username" class="form-input" placeholder="New Username" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Update Email</label>
+                        <input type="email" name="new_email" class="form-input" placeholder="New Email" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Change Password</label>
+                        <input type="password" name="new_password" class="form-input" placeholder="New Password" />
+                    </div>
+                    <button type="submit" class="form-button">Save Changes</button>
+                </form>
+            </div>
+            <!-- Privacy & Security Section -->
+<!-- <div class="settings-section privacy-section">
+    <h2 class="settings-title">Privacy & Security</h2>
+    <div class="privacy-option">
+        <label>Manage Watch History</label>
+        <button onclick="clearHistory()">Clear History</button>
+    </div>
+    <div class="privacy-option">
+        <label>Pause History Tracking</label>
+        <button onclick="pauseHistory()">Pause History</button>
+    </div>
+</div> -->
+            <!-- Theme & Appearance Section -->
+            <!-- <div class="settings-section">
+                <h2 class="settings-title">Theme & Appearance</h2>
+                <div class="theme-toggle">
+                    <label for="light-mode">Light Mode</label>
+                    <input type="radio" id="light-mode" name="theme" value="light" checked />
+                    <label for="dark-mode">Dark Mode</label>
+                    <input type="radio" id="dark-mode" name="theme" value="dark" />
+                </div>
+            </div> -->
+            <!-- Logout Section -->
+            <div class="settings-section">
+                <h2 class="settings-title">Logout</h2>
+                <button class="form-button" onclick="logout()">Log Out of the Account</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

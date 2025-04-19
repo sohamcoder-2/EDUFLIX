@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduFlix</title>
+  <link rel="icon" href="{{ url_for('static', filename='IMAGES/Logo.jpg') }}" type="image/jpg">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Open Sans", serif;
+    }
+    html, body {
+      height: 100%;
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+      overflow-y: auto; /* Enable vertical scrolling */
+      scrollbar-width: thin; /* For Firefox */
+      scrollbar-color: #203a43 transparent; /* For Firefox */
+    }
+    body::-webkit-scrollbar {
+      width: 8px; /* Width of the scrollbar for WebKit browsers */
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #203a43; /* Color of the scrollbar thumb */
+      border-radius: 4px;
+    }
+    body::-webkit-scrollbar-track {
+      background-color: transparent; /* Color of the scrollbar track */
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      position: fixed;
+      width: 100%;
+      background: #203a43;
+      z-index: 50;
+    }
+    .navbar .logo-image, .navbar .user-img {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+    .navbar .logo-image { width: 64px; height: 64px; }
+    .navbar .section, .navbar .search-form, .navbar .nav-logo {
+      display: flex;
+      align-items: center;
+    }
+    .navbar .section { gap: 1rem; }
+    .navbar .nav-logo { gap: 0.5rem; text-decoration: none; }
+    .navbar .logo-text { font-size: 1.5rem; color: aliceblue; }
+    .navbar .menu-button {
+      border: none;
+      cursor: pointer;
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      background: #203a43;
+      position: relative;
+    }
+    .navbar .menu-button .bar {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: all 0.3s ease;
+    }
+    .navbar .menu-button .bar:nth-child(1) { top: 15px; }
+    .navbar .menu-button .bar:nth-child(2) { top: 25px; }
+    .navbar .menu-button .bar:nth-child(3) { top: 35px; }
+    .search-form {
+      width: 100%;
+    }
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+    .search-input {
+      width: 500px;
+      padding: 10px 40px 10px 15px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    .search-button {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .search-button img {
+      width: 20px;
+      height: 20px;
+    }
+    .time{
+      margin-right: 13px;
+    }
+    .main-layout {
+      display: flex;
+      position: relative;
+      top: 5rem;
+      height: calc(100vh - 5rem); /* Ensure the layout fits within the viewport */
+      overflow-y: auto; /* Enable vertical scrolling for the main content */
+    }
+    .main-layout .sidebar {
+      width: 250px;
+      height: 100%;
+      position: fixed;
+      top: 5rem;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+      left: -250px; /* Initially hidden */
+      background-color: #e5e7eb;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      overflow-y: scroll;
+      z-index: 100;
+      transition: left 0.3s ease;
+    }
+    .sidebar-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .sidebar-button {
+      width: 100%;
+      padding: 12px 15px;
+      text-align: left;
+      background: white;
+      border: none;
+      border-radius: 20px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      text-decoration: none;
+    }
+    .sidebar-button:hover {
+      background: #203a43;
+      transform: translateX(3px);
+      color: white;
+    }
+    hr {
+      border: none;
+      height: 1px;
+      background: #868686;
+      margin: 10px 0;
+    }
+    .content-wrapper {
+      margin-left: 250px;
+      padding: 0 1rem;
+      overflow-y: auto; /* Enable vertical scrolling for the content wrapper */
+      width: calc(100% - 250px);
+      height: 100%; /* Ensure the content wrapper takes up the remaining height */
+      display: flex;
+      flex-direction: column;
+    }
+    .category-list {
+      display: flex;
+      gap: 0.7rem;
+      padding: 1rem 0.5rem;
+    }
+    .category-button {
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+      padding: 0.5rem 2rem;
+      border-radius: 20px;
+      background-color: #ececec;
+      transition: all 0.3s ease-in-out;
+    }
+    .category-button:hover {
+      background-color: #203a43;
+      color: white;
+      transform: scale(1.05);
+    }
+    .video-list {
+      display: grid;
+      justify-content: space-between;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+    .video-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .video-card {
+      width: 250px;
+      background: #f7f7fb;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease-in-out;
+      height: 200px;
+    }
+    .video-card:hover {
+      transform: scale(1.05);
+    }
+    .video-card img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+      display: block;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+    .video-content {
+      padding-top: 5px;
+      margin-left: 15px;
+      color: black;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .info {
+      margin-right: 5px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: black;
+      margin-bottom: 5px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .title {
+      font-size: 16px;
+      font-weight: bold;
+      color: black;
+      margin-bottom: 5px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .instructor {
+      font-size: 14px;
+      color: black;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    /* Dropdown Menu Styles */
+    .user-menu {
+      position: relative;
+    }
+    .user-menu .dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+  width: 150px; /* Fixed width to ensure it fits on one line */
+}
+.user-menu .dropdown a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+  padding: 5px 10px;
+  font-size: 14px; /* Reduced font size */
+  white-space: now
+  rap; /* Prevent text wrapping */
+}
+.user-menu .dropdown hr {
+    margin: 5px 0;
+    border-top: 1px solid #ccc;
+}
+    .user-menu .dropdown a:hover {
+      background-color: #f0f0f0;
+    }
+    .user-menu.show-dropdown .dropdown {
+      display: block;
+    }
+
+    @media screen and (max-width: 1024px) and (min-width: 768px) {
+      .video-list {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+      .search-input {
+        width: 300px;
+      }
+    }
+    @media screen and (max-width: 768px) and (min-width: 680px) {
+      .video-list {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+      .search-input {
+        width: 250px;
+      }
+    }
+    @media screen and (max-width: 680px) and (min-width: 480px) {
+      .video-list {
+        grid-template-columns: 100%;
+      }
+      .search-input {
+        width: 200px;
+      }
+    }
+    @media screen and (max-width: 480px) and (min-width: 370px) {
+      .video-card {
+        width: 95%;
+        max-width: 400px;
+        height: auto;
+      }
+      .video-list {
+        display: grid;
+        grid-template-columns: 100%;
+        padding: 0;
+      }
+      .search-input {
+        width: 160px;
+      }
+      .navbar {
+        padding: 0.5rem;
+      }
+      .navbar .logo-image {
+        width: 40px;
+        height: 40px;
+      }
+      .navbar .logo-text {
+        font-size: 1.2rem;
+      }
+      .navbar .menu-button {
+        width: 40px;
+        height: 40px;
+        display: block;
+      }
+      .navbar .user-img {
+        width: 40px;
+        height: 40px;
+      }
+      .navbar .section {
+        gap: 0.5rem;
+      }
+      .main-layout {
+        flex-direction: column;
+        top: 3.5rem;
+      }
+      .main-layout .sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        left: -100%;
+        background-color: #e5e7eb;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        overflow-y: auto;
+        z-index: 100;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        transition: left 0.3s ease;
+      }
+      .sidebar-list {
+        flex-direction: row;
+        gap: 10px;
+      }
+      .sidebar-button {
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 15px;
+        gap: 10px;
+      }
+      .content-wrapper {
+        margin-left: 0;
+        width: 100%;
+        padding-bottom: 70px;
+      }
+    }
+    @media screen and (max-width: 370px) {
+      .navbar {
+        padding: 0.5rem;
+      }
+      .navbar .logo-image {
+        width: 40px;
+        height: 40px;
+      }
+      .navbar .logo-text {
+        font-size: 1.2rem;
+      }
+      .navbar .menu-button {
+        width: 40px;
+        height: 40px;
+        display: block;
+      }
+      .navbar .user-img {
+        width: 40px;
+        height: 40px;
+      }
+      .navbar .section {
+        gap: 0.5rem;
+      }
+      .search-input {
+        display: none;
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 20px;
+      }
+      .search-form {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .search-button {
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+      }
+      .navbar.expanded .nav-logo,
+      .navbar.expanded .menu-button,
+      .navbar.expanded .user-img {
+        display: none;
+      }
+      .navbar.expanded .search-input {
+        display: block;
+      }
+      .main-layout {
+        flex-direction: column;
+        top: 3.5rem;
+      }
+      .main-layout .sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        left: -100%;
+        background-color: #e5e7eb;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        overflow-y: auto;
+        z-index: 100;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+      .sidebar-list {
+        flex-direction: row;
+        gap: 10px;
+      }
+      .sidebar-button {
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 15px;
+        gap: 10px;
+      }
+      .content-wrapper {
+        margin-left: 0;
+        width: 100%;
+        padding-bottom: 70px;
+      }
+      .video-list {
+        grid-template-columns: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="nav_container">
+    <header>
+      <nav class="navbar">
+        <div class="section nav-left">
+          <button class="menu-button" onclick="toggleMenu()">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </button>
+          <a href="#" class="nav-logo">
+            <img src="/static/Images/Logo.jpg" alt="Logo" class="logo-image" />
+            <h2 class="logo-text">EduFlix</h2>
+          </a>
+        </div>
+        <div class="section nav-mid">
+          <form action="{{ url_for('search_page') }}" method="GET" class="search-form">
+            <div class="search-box">
+              <input type="search" placeholder="Search" name="q" value="{{ query }}" required class="search-input" autocomplete="off" />
+              <button class="search-button">
+                <img src="/static/IMAGES/search.png" alt="search-icon" />
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="section nav-right user-menu">
+          <div class="dropdown-toggle" onclick="toggleDropdown(this)">
+              <img src="{{ url_for('static', filename='IMAGES/User.png') }}" alt="user profile" class="user-img" />
+          </div>
+          <div class="dropdown">
+              {% if username %}
+                  <a href="#" class="dropdown-item">{{ username }}</a>
+                  <hr />
+                  <a href="#" onclick="logout()">Log Out</a>
+              {% endif %}
+          </div>
+      </div>
+      </nav>
+    </header>
+  </div>
+  <!-- Sidebar -->
+  <main class="main-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-list">
+        <a href="{{ url_for('search_page', category='All') }}" class="sidebar-button">Home</a>
+        <!-- <button class="sidebar-button">Lectures</button> -->
+        <a href="{{ url_for('downloaded_videos') }}" class="sidebar-button">Download</a>
+        <hr />
+        <button class="sidebar-button" onclick="window.location.href='/watch_later_videos'">Watch Later</button>
+        {% if username and role == 'admin' %}
+            <button class="sidebar-button" onclick="window.location.href='/upload_video'">Add Video</button>
+        {% endif %}
+        <!-- <button class="sidebar-button">Resources</button> -->
+        <hr />
+        <button class="sidebar-button" onclick="window.location.href='/history'">History</button>
+        <button class="sidebar-button" onclick="window.location.href='/settings'">Settings</button>
+      </div>
+    </aside>
+    <!-- Content -->
+    <div class="content-wrapper">
+      <!-- Category Section -->
+      <div class="category-list">
+        <button class="category-button {% if category == 'All' %}active{% endif %}" onclick="filterVideos('All')">All</button>
+        <button class="category-button {% if category == 'Popular' %}active{% endif %}" onclick="filterVideos('Popular')">Popular</button>
+        <button class="category-button" onclick="filterVideos('Mathematics')">Mathematics</button>
+        <button class="category-button" onclick="filterVideos('Automata Theory')">Automata Theory</button>
+        <button class="category-button" onclick="filterVideos('DBMS')">DBMS</button>
+        <button class="category-button" onclick="filterVideos('CN')">CN</button>
+        <button class="category-button" onclick="filterVideos('Python')">Python</button>
+        <button class="category-button" onclick="filterVideos('OS')">OS</button>
+    </div>
+      <!-- Video List -->
+      <div class="video-list">
+        {% if videos %}
+          {% for video in videos %}
+            <div class="video-container">
+              <a href="{{ url_for('video_play', video_id=video.id) }}" class="video-card" style="text-decoration: none; color: inherit;">
+                <img src="{{ video.thumbnail_url }}" alt="thumbnail" />
+                <div class="video-content">
+                  <div class="info">
+                    <span>{{ video.views }} views  </span>
+                    <span class="time">{{ video.duration }}</span>
+                  </div>
+                  <div class="title">{{ video.title }}</div>
+                  <div class="instructor">{{ video.instructor }}</div>
+                  <div class="category">{{ video.category }}</div> <!-- Display the category -->
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No videos found for "{{ query }}".</p>
+        {% endif %}
+      </div>
+    </div>
+  </main>
+  <script>
+    function toggleMenu() {
+      const sidebar = document.getElementById('sidebar');
+      if (sidebar.style.left === '0px') {
+        sidebar.style.left = '-250px'; // Hide the sidebar
+      } else {
+        sidebar.style.left = '0px'; // Show the sidebar
+      }
+    }
+
+    function toggleDropdown(element) {
+      element.parentElement.classList.toggle('show-dropdown');
+    }
+
+    function logout() {
+      // Redirect to the login page
+      window.location.href = "{{ url_for('index') }}"; // Replace with your login route
+    }
+
+  // Function to filter videos based on the selected category
+  function filterVideos(category) {
+    const query = document.querySelector('.search-input').value || '';
+    window.location.href = `/search?q=${encodeURIComponent(query)}&category=${category}`;
+}
+  // Add event listeners to category buttons
+  document.querySelectorAll('.category-button').forEach(button => {
+    button.addEventListener('click', () => {
+      document.querySelector('.category-button.active').classList.remove('active');
+      button.classList.add('active');
+      filterVideos(button.textContent);
+    });
+  });
+  </script>
+</body>
+</html>

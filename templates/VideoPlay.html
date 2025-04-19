@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="{{ url_for('static', filename='IMAGES/Logo.jpg') }}" type="image/jpg">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ video.title }} | EduFlix</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Open Sans", serif;
+        }
+        body {
+            background-color: white;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #203a43;
+            z-index: 50;
+        }
+        .navbar .logo-image, .navbar .user-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .navbar .logo-image { width: 64px; height: 64px; }
+        .navbar .section, .navbar .search-form, .navbar .nav-logo {
+            display: flex;
+            align-items: center;
+        }
+        .navbar .section { gap: 1rem; }
+        .navbar .nav-logo { gap: 0.5rem; text-decoration: none; }
+        .navbar .logo-text { font-size: 1.5rem; color: aliceblue; }
+        .navbar .menu-button {
+            border: none;
+            cursor: pointer;
+            height: 50px;
+            width: 50px; /* Increased width */
+            border-radius: 50%;
+            background: #203a43;
+            position: relative;
+        }
+        .navbar .menu-button .bar {
+            width: 25px; /* Increased bar width */
+            height: 3px;
+            background-color: white; /* White color */
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+        }
+        .navbar .menu-button .bar:nth-child(1) { top: 15px; }
+        .navbar .menu-button .bar:nth-child(2) { top: 25px; }
+        .navbar .menu-button .bar:nth-child(3) { top: 35px; }
+        /* Search Form Styles */
+        .search-form {
+            width: 100%;
+        }
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+        .search-input {
+            width: 500px;
+            padding: 10px 40px 10px 15px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .search-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .search-button img {
+            width: 20px;
+            height: 20px;
+        }
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            height: calc(100vh - 5rem);
+            position: fixed;
+            top: 5rem;
+            left: -250px; /* Hide the sidebar initially */
+            background-color: #e5e7eb;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-y: hidden; /* Removed scrollbar */
+            z-index: 100;
+            transition: left 0.3s ease;
+        }
+        /* Show sidebar when active */
+        .sidebar.active {
+            left: 0; /* Make the sidebar visible */
+        }
+        /* Adjust main content margin when sidebar is active */
+        .content-wrapper {
+            margin-left: 0;
+            transition: margin-left 0.3s ease-in-out;
+        }
+        .sidebar.active + .content-wrapper {
+            margin-left: 250px; /* Push content to the right */
+        }
+        .sidebar-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .sidebar-button {
+            width: 100%;
+            padding: 12px 15px;
+            text-align: left;
+            background: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            text-decoration: none;
+        }
+        .sidebar-button:hover {
+            background: #203a43;
+            transform: translateX(3px);
+            color: white;
+        }
+        hr {
+            border: none;
+            height: 1px;
+            background: #868686;
+            margin: 10px 0;
+        }
+        /* Content Wrapper */
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+            padding: 90px 20px;
+            flex-wrap: wrap;
+        }
+        .video-container {
+            flex: 2;
+            width: 100%;
+            max-width: 900px;
+        }
+        .video-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .video-frame {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .video-details h2 {
+            font-size: 22px;
+            margin-top: 12px;
+        }
+        .channel-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .video-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 12px;
+        }
+        .action-btn {
+            background-color: white;
+            border: 1px solid gray;
+            padding: 8px 12px; /* Adjust padding as needed */
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            min-width: 120px; /* Ensure consistent width across all buttons */
+            height: 40px; /* Fixed height for uniformity */
+            justify-content: center; /* Center content horizontally */
+        }
+        .action-btn:hover {
+            background-color: #203a43;
+            opacity: 0.7;
+        }
+        .action-btn img {
+            width: 18px;
+        }
+        /* Info Container */
+        .info-container {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 350px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .info-container h1 {
+            font-size: 26px;
+            color: #203a43;
+            margin-bottom: 10px;
+        }
+        .info-container p {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        /* Recommended Videos Section */
+        .recommended-videos {
+            margin-top: 20px;
+        }
+        .recommended-video-card {
+            width: 150px;
+            background: #f7f7fb;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+            height: 150px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: black;
+            display: inline-block; /* Ensure cards are displayed side by side */
+            margin-right: 10px; /* Add spacing between cards */
+        }
+        .recommended-video-card:hover {
+            transform: scale(1.05);
+        }
+        .recommended-video-card img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+            display: block;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+        .recommended-video-content {
+            padding: 10px;
+        }
+        .recommended-video-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 5px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .recommended-video-instructor {
+            font-size: 12px;
+            color: black;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        /* Responsive Design */
+        @media screen and (max-width: 1024px) {
+            .content-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+            .video-container, .info-container {
+                max-width: 100%;
+            }
+            .info-container {
+                max-width: 90%;
+            }
+            .search-input {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            .navbar .search-form {
+                width: 100%;
+                justify-content: center;
+                margin-top: 10px;
+            }
+            .search-input {
+                width: 90%;
+            }
+            .content-wrapper {
+                padding: 60px 10px;
+            }
+            .video-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        @media screen and (max-width: 480px) {
+            .video-details h2 {
+                font-size: 18px;
+            }
+            .info-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="nav_container">
+        <header>
+            <nav class="navbar">
+                <div class="section nav-left">
+                    <!-- Hamburger Menu Button -->
+                    <button id="menu-toggle" class="menu-button">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                    <a href="#" class="nav-logo">
+                        <img src="{{ url_for('static', filename='Images/Logo.jpg') }}" alt="Logo" class="logo-image" />
+                        <h2 class="logo-text">EduFlix</h2>
+                    </a>
+                </div>
+                <div class="section nav-mid">
+                    <!-- Search Form -->
+                    <form action="{{ url_for('search_page') }}" method="GET" class="search-form">
+                        <div class="search-box">
+                            <input type="search" placeholder="Search" name="q" required class="search-input" autocomplete="off" />
+                            <button class="search-button">
+                                <img src="/static/IMAGES/search.png" alt="search-icon" />
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="section nav-right">
+                    <img src="{{ url_for('static', filename='IMAGES/User.png') }}" alt="user profile" class="user-img" />
+                </div>
+            </nav>
+        </header>
+    </div>
+    <!-- Sidebar -->
+    <aside class="sidebar {% if session.get('user_id') %}active{% endif %}">
+        <div class="sidebar-list">
+            <a href="{{ url_for('search_page') }}" class="sidebar-button">Home</a>
+            <a href="{{ url_for('downloaded_videos') }}" class="sidebar-button">Download</a>
+            <hr />
+            <button class="sidebar-button" onclick="window.location.href='/watch_later_videos'">Watch Later</button>
+            <button class="sidebar-button" onclick="window.location.href='/upload_video'">Add Video</button>
+            <hr />
+            <button class="sidebar-button" onclick="window.location.href='/history'">History</button>   
+            <button class="sidebar-button">Settings</button>
+        </div>
+    </aside>
+    <!-- Content -->
+    <div class="content-wrapper">
+        <div class="video-container">
+            <!-- Main Video Player -->
+            <video class="video-frame" controls width="100%">
+                <source src="{{ video.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-details">
+                <h2>{{ video.title }}</h2>
+                <p><strong>Instructor:</strong> {{ video.instructor }}</p>
+                <p><strong>Description:</strong> {{ video.description }}</p>
+                <p><strong>Likes:</strong> {{ video.likes }}</p>
+            </div>
+            <div class="video-actions">
+                <button class="action-btn" id="like-btn">
+                    <img src="/static/IMAGES/like.png" alt="like-icon" />
+                    Like
+                </button>
+                <button class="action-btn" id="download-btn">
+                    <img src="/static/IMAGES/download.png" alt="download-icon" />
+                    Download
+                </button>
+                <button class="action-btn" id="share-btn">
+                    <img src="/static/IMAGES/Share.png" alt="share-icon" />
+                    Share
+                </button>
+                <button class="action-btn" id="watch-later-btn">
+                    <img src="/static/IMAGES/watch-later.png" alt="watch-later-icon" />
+                    Watch Later
+                </button>
+            </div>
+
+            <!-- Recommended Videos Section -->
+            <div class="recommended-videos">
+                <h3>Recommended Videos</h3>
+                <div class="recommended-video-list">
+                    {% for recommended_video in recommended_videos %}
+                        <a href="{{ url_for('video_play', video_id=recommended_video.id) }}" class="recommended-video-card">
+                            <img src="{{ recommended_video.thumbnail_url }}" alt="Thumbnail" />
+                            <div class="recommended-video-content">
+                                <div class="recommended-video-title">{{ recommended_video.title }}</div>
+                                <div class="recommended-video-instructor">Instructor: {{ recommended_video.instructor }}</div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- JavaScript for Toggle Functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const downloadBtn = document.getElementById('download-btn');
+            // Handle the download button click
+            downloadBtn.addEventListener('click', async function () {
+                const videoId = {{ video.id }}; // Embed the video ID from Flask
+                try {
+                    const response = await fetch(`/download/${videoId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    const result = await response.json();
+                    if (response.ok) {
+                        alert(result.message); // Show success message
+                        window.location.href = result.redirect; // Redirect to the downloaded videos page
+                    } else {
+                        alert(result.message); // Show error message
+                    }
+                } catch (error) {
+                    console.error('Error downloading video:', error);
+                    alert('An error occurred while downloading the video.');
+                }
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const likeBtn = document.getElementById('like-btn');
+            const likesCount = document.querySelector('strong[title="Likes"]'); // Select the likes count element
+            // Handle the like button click
+            likeBtn.addEventListener('click', async function () {
+                const videoId = {{ video.id }}; // Embed the video ID from Flask
+                try {
+                    const response = await fetch(`/like/${videoId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    const result = await response.json();
+                    if (response.ok) {
+                        alert(result.message); // Show success message
+                        likesCount.textContent = result.likes; // Update the likes count on the page
+                    } else {
+                        alert(result.message); // Show error message
+                    }
+                } catch (error) {
+                    console.error('Error liking video:', error);
+                }
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            menuToggle.addEventListener('click', function () {
+                sidebar.classList.toggle('active'); // Toggle the 'active' class to show/hide the sidebar
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const watchLaterBtn = document.getElementById('watch-later-btn');
+            const videoId = {{ video.id }};
+            // Handle the watch later button click
+            watchLaterBtn.addEventListener('click', async function () {
+                try {
+                    const response = await fetch(`/watch_later/${videoId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    const result = await response.json();
+                    if (response.ok) {
+                        alert(result.message); // Show success message
+                    } else {
+                        alert(result.message); // Show error message
+                    }
+                } catch (error) {
+                    console.error('Error adding video to Watch Later:', error);
+                    alert('An error occurred while adding the video to Watch Later.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

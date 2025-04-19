@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="{{ url_for('static', filename='IMAGES/Logo.jpg') }}" type="image/jpg">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>History | EduFlix</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Open Sans", serif;
+        }
+        body {
+            background-color: white;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #203a43;
+            z-index: 50;
+        }
+        .navbar .logo-image, .navbar .user-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .navbar .logo-image { width: 64px; height: 64px; }
+        .navbar .section, .navbar .search-form, .navbar .nav-logo {
+            display: flex;
+            align-items: center;
+        }
+        .navbar .section { gap: 1rem; }
+        .navbar .nav-logo { gap: 0.5rem; text-decoration: none; }
+        .navbar .logo-text { font-size: 1.5rem; color: aliceblue; }
+        .navbar .menu-button {
+            border: none;
+            cursor: pointer;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            background: #203a43;
+            position: relative;
+        }
+        .navbar .menu-button .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+        }
+        .navbar .menu-button .bar:nth-child(1) { top: 15px; }
+        .navbar .menu-button .bar:nth-child(2) { top: 25px; }
+        .navbar .menu-button .bar:nth-child(3) { top: 35px; }
+        /* Search Form Styles */
+        .search-form {
+            width: 100%;
+        }
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+        .search-input {
+            width: 500px;
+            padding: 10px 40px 10px 15px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .search-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .search-button img {
+            width: 20px;
+            height: 20px;
+        }
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            height: calc(100vh - 5rem);
+            position: fixed;
+            top: 5rem;
+            left: 0;
+            background-color: #e5e7eb;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-y: hidden; /* Removed scrollbar */
+            z-index: 100;
+            transform: translateX(-100%); /* Hide the sidebar initially */
+            transition: transform 0.3s ease;
+        }
+        /* Show sidebar when active */
+        .sidebar.active {
+            transform: translateX(0); /* Make the sidebar visible */
+        }
+        .sidebar-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .sidebar-button {
+            width: 100%;
+            padding: 12px 15px;
+            text-align: left;
+            background: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            text-decoration: none;
+        }
+        .sidebar-button:hover {
+            background: #203a43;
+            transform: translateX(3px);
+            color: white;
+        }
+        hr {
+            border: none;
+            height: 1px;
+            background: #868686;
+            margin: 10px 0;
+        }
+        /* Main Content */
+        .main-content {
+            margin-top: 70px;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+        /* Add margin when sidebar is active */
+        body.sidebar-active .main-content {
+            margin-left: 0; /* Match the width of the sidebar */
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            text-align: center;
+            color: #203a43;
+            margin-bottom: 10px;
+        }
+        .clear-all-btn {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .clear-all-btn:hover {
+            opacity: 0.9;
+        }
+        /* Video List */
+        .video-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            overflow-y: auto; /* Enable vertical scrollbar for long lists */
+            max-height: calc(100vh - 150px); /* Adjust based on header and footer heights */
+            margin-left: 250px;
+        }
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .video-card {
+            width: 250px;
+            background: #f7f7fb;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+            height: 200px;
+        }
+        .video-card:hover {
+            transform: scale(1.05);
+        }
+        .video-card img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+            display: block;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+        .video-content {
+            padding-top: 5px;
+            margin-left: 15px;
+            color: black;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .info {
+            margin-right: 5px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: black;
+            margin-bottom: 5px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 5px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .instructor {
+            font-size: 14px;
+            color: black;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+            .upload-container,
+            .preview-container {
+                width: 100%;
+                max-width: 700px;
+            }
+            .form-container {
+                flex-direction: column;
+            }
+            .left-form,
+            .right-form {
+                width: 100%;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                transform: none !important; /* Reset transform for mobile */
+            }
+            body.sidebar-active .main-content {
+                margin-left: 0; /* No margin on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="nav_container">
+        <header>
+            <nav class="navbar">
+                <div class="section nav-left">
+                    <!-- Hamburger Menu Button -->
+                    <button id="menu-toggle" class="menu-button">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                    <a href="#" class="nav-logo">
+                        <img src="{{ url_for('static', filename='Images/Logo.jpg') }}" alt="Logo" class="logo-image" />
+                        <h2 class="logo-text">EduFlix</h2>
+                    </a>
+                </div>
+                <div class="section nav-mid">
+                    <!-- Search Form -->
+                    <form action="{{ url_for('search_page') }}" method="GET" class="search-form">
+                        <div class="search-box">
+                            <input type="search" placeholder="Search" name="q" required class="search-input" autocomplete="off" />
+                            <button class="search-button">
+                                <img src="/static/IMAGES/search.png" alt="search-icon" />
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="section nav-right">
+                    <img src="{{ url_for('static', filename='IMAGES/User.png') }}" alt="user profile" class="user-img" />
+                </div>
+            </nav>
+        </header>
+    </div>
+    <!-- Sidebar -->
+    <aside class="sidebar {% if session.get('user_id') %}active{% endif %}">
+        <div class="sidebar-list">
+            <a href="{{ url_for('search_page') }}" class="sidebar-button">Home</a>
+            <a href="{{ url_for('downloaded_videos') }}" class="sidebar-button">Download</a>
+            <hr />
+            <button class="sidebar-button" onclick="window.location.href='/watch_later_videos'">Watch Later</button>
+            {% if username and role == 'admin' %}
+            <button class="sidebar-button" onclick="window.location.href='/upload_video'">Add Video</button>
+            {% endif %}
+            <hr />
+            <button class="sidebar-button" onclick="window.location.href='/history'">History</button>   
+            <button class="sidebar-button">Settings</button>
+        </div>
+    </aside>
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <div class="main-content">
+            <div class="header">
+                <!-- <h1>History</h1> -->
+            </div>
+            <!-- Video List -->
+            <div class="video-list">
+                {% if viewed_videos %}
+                    {% for viewed_video in viewed_videos %}
+                        <div class="video-container">
+                            <a href="{{ url_for('video_play', video_id=viewed_video.video.id) }}" class="video-card" style="text-decoration: none; color: inherit;">
+                                <img src="{{ viewed_video.video.thumbnail_url }}" alt="thumbnail" />
+                                <div class="video-content">
+                                    <div class="info">
+                                        <span>{{ viewed_video.video.views }} views</span>
+                                        <span class="time">{{ viewed_video.video.duration }}</span>
+                                    </div>
+                                    <div class="title">{{ viewed_video.video.title }}</div>
+                                    <div class="instructor">{{ viewed_video.video.instructor }}</div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No videos in your history.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const body = document.body;
+
+            menuToggle.addEventListener('click', function () {
+                sidebar.classList.toggle('active'); // Toggle the 'active' class on the sidebar
+                body.classList.toggle('sidebar-active'); // Toggle the 'sidebar-active' class on the body
+            });
+        });
+    </script>
+</body>
+</html>
