@@ -66,23 +66,26 @@ The **Watch Later Page** shows a list of videos that the user has marked to watc
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000816.png?raw=true)
 
 ## 6. Add Video (Only for Admin)
-Purpose : 
-Allows administrators to upload new educational videos.
 
-Key Features :
-Input fields for:
-Video Title : Enter the title of the video.
-Description : Provide a detailed description of the video content.
-Instructor : Enter the name of the instructor or creator.
-Subject : Specify the subject or category of the video (e.g., Mathematics, Automata Theory).
-Duration : Enter the duration of the video (e.g., 10:30).
-File Upload Options:
-Upload Thumbnail : Choose an image file to serve as the video thumbnail.
-Upload Video : Select the video file to upload.
-Buttons:
-Remove Thumbnail : Option to remove the selected thumbnail.
-Remove Video : Option to remove the selected video file.
-Upload Video : Submit the form to upload the video.
+#### Purpose
+The **Add Video** page allows administrators to upload new educational videos to the platform.
+
+#### Key Features
+- **Input Fields**:
+  - **Video Title**: Enter the title of the video.
+  - **Description**: Provide a detailed description of the video content.
+  - **Instructor**: Enter the name of the instructor or creator.
+  - **Subject**: Specify the subject or category of the video (e.g., Mathematics, Automata Theory).
+  - **Duration**: Enter the duration of the video (e.g., `10:30`).
+
+- **File Upload Options**:
+  - **Upload Thumbnail**: Choose an image file to serve as the video thumbnail.
+  - **Upload Video**: Select the video file to upload.
+
+- **Buttons**:
+  - **Remove Thumbnail**: Option to remove the selected thumbnail.
+  - **Remove Video**: Option to remove the selected video file.
+  - **Upload Video**: Submit the form to upload the video.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000829.png?raw=true)
 
