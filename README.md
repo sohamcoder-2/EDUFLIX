@@ -1,7 +1,6 @@
 <div align="center">
-  # EduFlix: Educational Video Platform
+  <h1>EduFlix: Educational Video Platform</h1>
 </div>
-
 
 ## 1. Login Page
 Purpose : Allows users to log into their accounts.
