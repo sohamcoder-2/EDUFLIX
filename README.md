@@ -119,3 +119,24 @@ Search Bar :
 Allows users to search for specific videos.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20001049.png?raw=true)
+
+10. VideoPlay
+VideoPlay
+Purpose : Displays the playback interface for a selected video.
+Key Features :
+Video Player :
+Embedded video player with controls for play/pause, volume, and progress bar.
+Video Details :
+Title of the video.
+Instructor's name.
+Description of the video content.
+Number of likes.
+Action Buttons :
+Like : Increment the video's like count.
+Download : Download the video for offline viewing.
+Share : Share the video link.
+Watch Later : Add the video to the user's "Watch Later" list.
+Recommended Videos :
+Suggested videos based on the current video's category or related topics.
+
+![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20001134.png?raw=true)
