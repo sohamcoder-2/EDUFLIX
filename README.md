@@ -28,39 +28,31 @@ The **Sign Up Page** allows new users to create an account on the platform.
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20002210.png?raw=true)
 
 ## 3. Home Page
-Purpose : Displays a curated list of educational videos across various categories.
-Key Features :
-Navigation Bar :
-Options for Home , Download , Watch Later , History , and Settings .
-Video Cards :
-Each card shows a video thumbnail, title, instructor name, views, duration, and brief description.
-Category Tabs :
-Filters to view videos by categories like All , Popular , Mathematics , Automata Theory , etc.
-Search Bar :
-Allows users to search for specific videos.
+
+The **Home Page** displays a curated list of educational videos across various categories, providing users with an intuitive way to explore content.  
+- **Navigation Bar**: Includes options for **Home**, **Download**, **Watch Later**, **History**, and **Settings**, allowing users to easily navigate between sections.  
+- **Video Cards**: Each card presents a video thumbnail, title, instructor name, number of views, duration, and a brief description, offering a comprehensive overview of the content.  
+- **Category Tabs**: Filters enable users to view videos by categories such as **All**, **Popular**, **Mathematics**, **Automata Theory**, etc., enhancing discoverability.  
+- **Search Bar**: A search bar allows users to quickly find specific videos by title or category, ensuring a seamless browsing experience.  
+
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000711.png?raw=true)
 
 
 ## 4. Download Page
-Purpose : Displays a list of videos that the user has downloaded.
-Key Features :
-Video Cards :
-Each card shows a video thumbnail, title, instructor name, and download timestamp.
-Navigation Bar :
-Same as the Home Page, allowing access to other sections like Home , Download , Watch Later , etc.
+
+The **Download Page** displays a list of videos that the user has downloaded, enabling easy access to offline content.  
+- **Video Cards**: Each card shows a video thumbnail, title, instructor name, and download timestamp, providing essential details about the downloaded videos.  
+- **Navigation Bar**: The navigation bar mirrors the **Home Page**, offering access to other sections like **Home**, **Download**, **Watch Later**, **History**, and **Settings**, ensuring consistent navigation.  
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000726.png?raw=true)
 
 ## 5. Watch Later Page
-Purpose : Shows a list of videos that the user has marked to watch later.
-Key Features :
-Video Cards :
-Each card displays a video thumbnail, title, views, and duration.
-Clear All Button :
-Allows the user to remove all videos from the "Watch Later" list.
-Navigation Bar :
-Same as the Home Page, providing access to other sections.
+
+The **Watch Later Page** shows a list of videos that the user has marked to watch later, helping them organize their saved content.  
+- **Video Cards**: Each card displays a video thumbnail, title, number of views, and duration, giving users a quick overview of the saved videos.  
+- **Clear All Button**: A button allows users to remove all videos from the "Watch Later" list, providing flexibility to manage their saved content.  
+- **Navigation Bar**: The navigation bar is consistent with the **Home Page**, offering access to other sections like **Home**, **Download**, **Watch Later**, **History**, and **Settings**, ensuring a cohesive user experience.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000816.png?raw=true)
 
