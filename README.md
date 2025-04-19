@@ -67,10 +67,10 @@ The **Watch Later Page** shows a list of videos that the user has marked to watc
 
 ## 6. Add Video (Only for Admin)
 
-#### Purpose
+### Purpose
 The **Add Video** page allows administrators to upload new educational videos to the platform.
 
-#### Key Features
+### Key Features
 - **Input Fields**:
   - **Video Title**: Enter the title of the video.
   - **Description**: Provide a detailed description of the video content.
@@ -91,10 +91,10 @@ The **Add Video** page allows administrators to upload new educational videos to
 
 ## 7. History
 
-#### Purpose
+### Purpose
 The **History Page** displays the user's watch history, showing all the videos they have viewed.
 
-#### Key Features
+### Key Features
 - **Video Cards**: Each card shows:
   - Video thumbnail.
   - Video title.
@@ -107,10 +107,10 @@ The **History Page** displays the user's watch history, showing all the videos t
 
 ## 8. Settings
 
-#### Purpose
+### Purpose
 The **Settings** page allows users to manage their account settings and preferences.
 
-#### Key Features
+### Key Features
 - **Account Settings**:
   - Fields to change the **username**, **email**, and **password**.
   - A **Save Changes** button to update the account details.
