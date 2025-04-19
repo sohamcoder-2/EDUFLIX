@@ -2,7 +2,7 @@
 
 
 
-1. Login Page
+## 1. Login Page
 Purpose : Allows users to log into their accounts.
 Key Features :
 Input fields for Username and Password .
