@@ -1,5 +1,5 @@
 <div align="center">
-  # EduFlix
+  # EduFlix: Educational Video Platform
 </div>
 
 
