@@ -106,13 +106,16 @@ The **History Page** displays the user's watch history, showing all the videos t
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000906.png?raw=true)
 
 ## 8. Settings
-Purpose : Allows users to manage their account settings and preferences.
-Key Features :
-Account Settings :
-Fields to change the username, email, and password.
-A Save Changes button to update the account details.
-Logout :
-A button to log out of the account.
+
+#### Purpose
+The **Settings** page allows users to manage their account settings and preferences.
+
+#### Key Features
+- **Account Settings**:
+  - Fields to change the **username**, **email**, and **password**.
+  - A **Save Changes** button to update the account details.
+- **Logout**:
+  - A button to log out of the account.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20150551.png?raw=true)
 
