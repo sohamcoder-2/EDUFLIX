@@ -75,3 +75,19 @@ Remove Video : Option to remove the selected video file.
 Upload Video : Submit the form to upload the video.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000829.png?raw=true)
+
+7. History
+Purpose : Displays the user's watch history, showing all the videos they have viewed.
+Key Features :
+Video Cards :
+Each card shows:
+Video thumbnail.
+Video title.
+Number of views.
+Duration.
+Navigation Bar :
+Options for Home , Download , Watch Later , History , and Settings .
+Clear All Button (not shown in the screenshot but implied):
+Allows users to clear their entire watch history.
+
+![image alt]()
