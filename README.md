@@ -29,7 +29,10 @@ The **Sign Up Page** allows new users to create an account on the platform.
 
 ## 3. Home Page
 
-The **Home Page** displays a curated list of educational videos across various categories, providing users with an intuitive way to explore content.  
+### Purpose
+The **Home Page** displays a curated list of educational videos across various categories, providing users with an intuitive way to explore content.
+
+### Key Features
 - **Navigation Bar**: Includes options for **Home**, **Download**, **Watch Later**, **History**, and **Settings**, allowing users to easily navigate between sections.  
 - **Video Cards**: Each card presents a video thumbnail, title, instructor name, number of views, duration, and a brief description, offering a comprehensive overview of the content.  
 - **Category Tabs**: Filters enable users to view videos by categories such as **All**, **Popular**, **Mathematics**, **Automata Theory**, etc., enhancing discoverability.  
@@ -41,7 +44,10 @@ The **Home Page** displays a curated list of educational videos across various c
 
 ## 4. Download Page
 
+### Purpose
 The **Download Page** displays a list of videos that the user has downloaded, enabling easy access to offline content.  
+
+### Key Features
 - **Video Cards**: Each card shows a video thumbnail, title, instructor name, and download timestamp, providing essential details about the downloaded videos.  
 - **Navigation Bar**: The navigation bar mirrors the **Home Page**, offering access to other sections like **Home**, **Download**, **Watch Later**, **History**, and **Settings**, ensuring consistent navigation.  
 
@@ -49,7 +55,10 @@ The **Download Page** displays a list of videos that the user has downloaded, en
 
 ## 5. Watch Later Page
 
+### Purpose
 The **Watch Later Page** shows a list of videos that the user has marked to watch later, helping them organize their saved content.  
+
+### Key Features
 - **Video Cards**: Each card displays a video thumbnail, title, number of views, and duration, giving users a quick overview of the saved videos.  
 - **Clear All Button**: A button allows users to remove all videos from the "Watch Later" list, providing flexibility to manage their saved content.  
 - **Navigation Bar**: The navigation bar is consistent with the **Home Page**, offering access to other sections like **Home**, **Download**, **Watch Later**, **History**, and **Settings**, ensuring a cohesive user experience.
