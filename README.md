@@ -19,4 +19,4 @@ Input fields for Name , Username , Email , and Password .
 A Sign Up button to submit the form.
 A link to navigate back to the Login page if the user already has an account.
 
-![imgage alt]
+![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20002210.png?raw=true)
