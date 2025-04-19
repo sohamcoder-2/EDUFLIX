@@ -16,11 +16,13 @@ The **Login Page** allows users to log into their accounts.
 
 
 ## 2.Sign Up Page
-Purpose : Allows new users to create an account.
-Key Features :
-Input fields for Name , Username , Email , and Password .
-A Sign Up button to submit the form.
-A link to navigate back to the Login page if the user already has an account.
+
+### Purpose : Allows new users to create an account.
+
+### Key Features :
+-Input fields for Name , Username , Email , and Password .
+-A Sign Up button to submit the form.
+-A link to navigate back to the Login page if the user already has an account.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20002210.png?raw=true)
 
