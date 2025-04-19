@@ -104,3 +104,18 @@ A button to log out of the account.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20150551.png?raw=true)
 
+9.Popular Videos (Based on Views)
+Purpose : Displays a curated list of popular videos sorted by the number of views.
+Key Features :
+Video Cards :
+Each card shows:
+Video thumbnail.
+Video title.
+Number of views.
+Duration.
+Category Tabs :
+Filters to view videos by categories like All , Popular , Mathematics , Automata Theory , etc.
+Search Bar :
+Allows users to search for specific videos.
+
+![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20001049.png?raw=true)
