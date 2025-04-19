@@ -119,19 +119,19 @@ The **Settings** page allows users to manage their account settings and preferen
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20150551.png?raw=true)
 
-## 9.Popular Videos (Based on Views)
-Purpose : Displays a curated list of popular videos sorted by the number of views.
-Key Features :
-Video Cards :
-Each card shows:
-Video thumbnail.
-Video title.
-Number of views.
-Duration.
-Category Tabs :
-Filters to view videos by categories like All , Popular , Mathematics , Automata Theory , etc.
-Search Bar :
-Allows users to search for specific videos.
+## 9. Popular Videos (Based on Views)
+
+#### Purpose
+The **Popular Videos** page displays a curated list of videos sorted by the number of views, highlighting trending content.
+
+#### Key Features
+- **Video Cards**: Each card shows:
+  - Video thumbnail.
+  - Video title.
+  - Number of views.
+  - Duration.
+- **Category Tabs**: Filters to view videos by categories such as **All**, **Popular**, **Mathematics**, **Automata Theory**, etc.
+- **Search Bar**: Allows users to search for specific videos by title or category.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20001049.png?raw=true)
 
