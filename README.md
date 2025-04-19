@@ -66,7 +66,9 @@ The **Watch Later Page** shows a list of videos that the user has marked to watc
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000816.png?raw=true)
 
 ## 6. Add Video (Only for Admin)
-Purpose : Allows administrators to upload new educational videos.
+Purpose : 
+Allows administrators to upload new educational videos.
+
 Key Features :
 Input fields for:
 Video Title : Enter the title of the video.
