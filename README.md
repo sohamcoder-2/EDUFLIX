@@ -43,9 +43,10 @@ Video Cards :
 Each card shows a video thumbnail, title, instructor name, and download timestamp.
 Navigation Bar :
 Same as the Home Page, allowing access to other sections like Home , Download , Watch Later , etc.
+
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000726.png?raw=true)
 
-5. Watch Later Page
+6. Watch Later Page
 Purpose : Shows a list of videos that the user has marked to watch later.
 Key Features :
 Video Cards :
@@ -100,5 +101,6 @@ Fields to change the username, email, and password.
 A Save Changes button to update the account details.
 Logout :
 A button to log out of the account.
+
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20150551.png?raw=true)
 
