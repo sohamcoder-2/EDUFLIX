@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>EduFlix</h1>
+  <h1>EDUFLIX</h1>
 </div>
 
 ## 1. Login Page
