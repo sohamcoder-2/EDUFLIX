@@ -12,7 +12,7 @@ A link to navigate to the Sign Up page for new users.
 ![imgage alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000631.png?raw=true)
 
 
-2.Sign Up Page
+## 2.Sign Up Page
 Purpose : Allows new users to create an account.
 Key Features :
 Input fields for Name , Username , Email , and Password .
@@ -21,7 +21,7 @@ A link to navigate back to the Login page if the user already has an account.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20002210.png?raw=true)
 
-3. Home Page
+## 3. Home Page
 Purpose : Displays a curated list of educational videos across various categories.
 Key Features :
 Navigation Bar :
@@ -36,7 +36,7 @@ Allows users to search for specific videos.
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000711.png?raw=true)
 
 
-4. Download Page
+## 4. Download Page
 Purpose : Displays a list of videos that the user has downloaded.
 Key Features :
 Video Cards :
@@ -46,7 +46,7 @@ Same as the Home Page, allowing access to other sections like Home , Download , 
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000726.png?raw=true)
 
-6. Watch Later Page
+## 5. Watch Later Page
 Purpose : Shows a list of videos that the user has marked to watch later.
 Key Features :
 Video Cards :
@@ -58,7 +58,7 @@ Same as the Home Page, providing access to other sections.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000816.png?raw=true)
 
-6. Add Video (Only for Admin)
+## 6. Add Video (Only for Admin)
 Purpose : Allows administrators to upload new educational videos.
 Key Features :
 Input fields for:
@@ -77,7 +77,7 @@ Upload Video : Submit the form to upload the video.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000829.png?raw=true)
 
-7. History
+## 7. History
 Purpose : Displays the user's watch history, showing all the videos they have viewed.
 Key Features :
 Video Cards :
@@ -93,7 +93,7 @@ Allows users to clear their entire watch history.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000906.png?raw=true)
 
-8. Settings
+## 8. Settings
 Purpose : Allows users to manage their account settings and preferences.
 Key Features :
 Account Settings :
@@ -104,7 +104,7 @@ A button to log out of the account.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20150551.png?raw=true)
 
-9.Popular Videos (Based on Views)
+## 9.Popular Videos (Based on Views)
 Purpose : Displays a curated list of popular videos sorted by the number of views.
 Key Features :
 Video Cards :
@@ -120,7 +120,7 @@ Allows users to search for specific videos.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20001049.png?raw=true)
 
-10. VideoPlay
+## 10. VideoPlay
 VideoPlay
 Purpose : Displays the playback interface for a selected video.
 Key Features :
