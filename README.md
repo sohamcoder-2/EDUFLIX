@@ -1,5 +1,6 @@
-# EDUFLIX
-
+<div align="center">
+  # EduFlix
+</div>
 
 
 ## 1. Login Page
