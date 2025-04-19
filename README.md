@@ -121,10 +121,10 @@ The **Settings** page allows users to manage their account settings and preferen
 
 ## 9. Popular Videos (Based on Views)
 
-#### Purpose
+### Purpose
 The **Popular Videos** page displays a curated list of videos sorted by the number of views, highlighting trending content.
 
-#### Key Features
+### Key Features
 - **Video Cards**: Each card shows:
   - Video thumbnail.
   - Video title.
@@ -137,10 +137,10 @@ The **Popular Videos** page displays a curated list of videos sorted by the numb
 
 ## 10. VideoPlay
 
-#### Purpose
+### Purpose
 The **VideoPlay** page displays the playback interface for a selected video, providing users with an immersive viewing experience.
 
-#### Key Features
+### Key Features
 - **Video Player**: 
   - An embedded video player with controls for play/pause, volume adjustment, and progress tracking.
 - **Video Details**: 
