@@ -101,6 +101,7 @@ The **History Page** displays the user's watch history, showing all the videos t
   - Number of views.
   - Duration.
 - **Navigation Bar**: Options for **Home**, **Download**, **Watch Later**, **History**, and **Settings**, providing easy access to other sections.
+- 
 - **Clear All Button**: Allows users to clear their entire watch history with a single click.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000906.png?raw=true)
