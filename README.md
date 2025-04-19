@@ -57,3 +57,13 @@ Same as the Home Page, providing access to other sections.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000816.png?raw=true)
 
+6. Add Video (Only for Admin)
+Purpose : Allows administrators to upload new educational videos.
+Key Features :
+Input fields for:
+Video Title : Enter the title of the video.
+Description : Provide a detailed description of the video content.
+Instructor : Enter the name of the instructor or creator.
+Subject : Specify the subject or category of the video (e.g., Mathematics, Automata Theory).
+Duration : Enter the duration of the video (e.g., 10:30).
+![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000829.png?raw=true)
