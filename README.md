@@ -90,18 +90,18 @@ The **Add Video** page allows administrators to upload new educational videos to
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000829.png?raw=true)
 
 ## 7. History
-Purpose : Displays the user's watch history, showing all the videos they have viewed.
-Key Features :
-Video Cards :
-Each card shows:
-Video thumbnail.
-Video title.
-Number of views.
-Duration.
-Navigation Bar :
-Options for Home , Download , Watch Later , History , and Settings .
-Clear All Button (not shown in the screenshot but implied):
-Allows users to clear their entire watch history.
+
+#### Purpose
+The **History Page** displays the user's watch history, showing all the videos they have viewed.
+
+#### Key Features
+- **Video Cards**: Each card shows:
+  - Video thumbnail.
+  - Video title.
+  - Number of views.
+  - Duration.
+- **Navigation Bar**: Options for **Home**, **Download**, **Watch Later**, **History**, and **Settings**, providing easy access to other sections.
+- **Clear All Button**: Allows users to clear their entire watch history with a single click.
 
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000906.png?raw=true)
 
