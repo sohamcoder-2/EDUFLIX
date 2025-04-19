@@ -45,6 +45,15 @@ Navigation Bar :
 Same as the Home Page, allowing access to other sections like Home , Download , Watch Later , etc.
 ![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000726.png?raw=true)
 
+5. Watch Later Page
+Purpose : Shows a list of videos that the user has marked to watch later.
+Key Features :
+Video Cards :
+Each card displays a video thumbnail, title, views, and duration.
+Clear All Button :
+Allows the user to remove all videos from the "Watch Later" list.
+Navigation Bar :
+Same as the Home Page, providing access to other sections.
 
-
+![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000816.png?raw=true)
 
