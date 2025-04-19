@@ -43,9 +43,8 @@ Video Cards :
 Each card shows a video thumbnail, title, instructor name, and download timestamp.
 Navigation Bar :
 Same as the Home Page, allowing access to other sections like Home , Download , Watch Later , etc.
-![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000726.png?raw=true}
+![image alt](https://github.com/sohamcoder-2/EDUFLIX/blob/main/IMG/Screenshot%202025-04-19%20000726.png?raw=true)
 
 
 
-![image alt]()
 
