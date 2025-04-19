@@ -2,7 +2,7 @@
   <h1>EduFlix: Educational Video Platform</h1>
 </div>
 
-##1. Login Page
+## 1.Login Page
 
 ### Purpose
 The **Login Page** allows users to log into their accounts.
